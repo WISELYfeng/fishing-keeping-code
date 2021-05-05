@@ -1,7 +1,8 @@
 <template>
     <div>
-        Labels
-        <Nav></Nav>
+        <Layout>
+            Labels
+        </Layout>
     </div>
 </template>
 
