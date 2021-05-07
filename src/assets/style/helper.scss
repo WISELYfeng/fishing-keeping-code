@@ -4,11 +4,11 @@ $font-song: Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "So
 
 $color-highlight: rgb(240, 140, 74);
 
-%clearfix{
-    &::after{
-        content:'';
-        clear:both;
-        display: block;
+%clearFix {
+    &::after {
+      content: '';
+      clear: both;
+      display: block;
     }
 }
 $color-shadow:rgba(0,0,0,0.25);
