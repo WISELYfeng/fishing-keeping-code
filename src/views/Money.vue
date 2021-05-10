@@ -1,7 +1,7 @@
 <template>
   <div>
     <Layout class-prefix="layout">
-      <NumberPad :value.sync="record.amount"></NumberPad>
+      <NumberPad :value.sync="record.amount" @submit="saveRecord"></NumberPad>
       <Types :value.sync="record.type"></Types>
       <Notes @update:value="onUpdateNotes"></Notes>
       <Tags :dataSource.sync="tags" @update:value="onUpdateTags"></Tags>
@@ -10,35 +10,54 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
 import Types from "@/components/Money/Types.vue";
 import Notes from "@/components/Money/Notes.vue";
 import Tags from "@/components/Money/Tags.vue";
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from "vue-property-decorator";
+
+const recordList: Record[] = JSON.parse(
+  window.localStorage.getItem("recordList") || "[]"
+);
 
 type Record = {
-  tags:string[]
-  notes:string
-  type:string
-  amount:number
-}
+  tags: string[];
+  notes: string;
+  type: string;
+  amount: number;
+  createAt?: Date;
+};
 @Component({
-  components:{Tags, Types,Notes,NumberPad}
+  components: { Tags, Types, Notes, NumberPad },
 })
 export default class Money extends Vue {
-  tags = ['衣','食','住','行','旅游'];
+  tags = ["衣", "食", "住", "行", "旅游"];
+  recordList: Record[] = recordList;
   record: Record = {
-    tags:[],
-    notes:'',
-    type:'-',
-    amount:0
+    tags: [],
+    notes: "",
+    type: "-",
+    amount: 0,
   };
-  onUpdateTags(value:string[]){
+  onUpdateTags(value: string[]) {
     this.record.tags = value;
   }
-  onUpdateNotes(value:string){
+  onUpdateNotes(value: string) {
     this.record.notes = value;
+  }
+  saveRecord() {
+    const record2: Record = JSON.parse(JSON.stringify(this.record));
+    record2.createAt = new Date();
+    this.recordList.push(record2);
+  }
+
+  @Watch("recordList")
+  onRecordListChange() {
+    window.localStorage.setItem(
+      "recordList",
+      JSON.parse(JSON.stringify(this.recordList))
+    );
   }
 }
 </script>
