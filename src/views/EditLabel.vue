@@ -11,7 +11,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import Notes from "@/components/Money/Notes.vue";
+import Notes from "@/components/Money/FormItem.vue";
 import tagListModel from "@/models/tagListModel";
 
 @Component({
