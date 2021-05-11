@@ -7,11 +7,7 @@
       <li
         v-for="tag in dataSource"
         :key="tag"
-        @class="
-          {
-            selected: selectedTags.indexOf(tag) >= 0;
-          }
-        "
+        :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
         @click="toggle(tag)"
       >
         {{ tag }}
@@ -19,16 +15,13 @@
     </ul>
   </div>
 </template>
-
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) dataSource: string[] | undefined;
+  @Prop() readonly dataSource: string[] | undefined;
   selectedTags: string[] = [];
-
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag);
     if (index >= 0) {
@@ -36,7 +29,7 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.push(tag);
     }
-    this.$emit('update:value', this.selectedTags);
+    this.$emit("update:value", this.selectedTags);
   }
   create() {
     const name = window.prompt("请输入标签名");
@@ -51,7 +44,7 @@ export default class Tags extends Vue {
 
 <style lang="scss" scoped>
 .tags {
-  background:white;
+  background: white;
   font-size: 14px;
   padding: 16px;
   flex-grow: 1;
@@ -71,7 +64,7 @@ export default class Tags extends Vue {
       margin-right: 12px;
       margin-top: 4px;
       &.selected {
-        background-color: darken($bg, 40%);
+        background: darken($bg, 50%);
         color: white;
       }
     }
@@ -87,4 +80,3 @@ export default class Tags extends Vue {
     }
   }
 }
-</style>
