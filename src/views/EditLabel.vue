@@ -10,10 +10,11 @@
         :value="tag.name"
         field-name="标签名"
         placeholer="请输入标签名"
+        @update:value="update"
       ></FormItem>
     </div>
     <div class="button-wrapper">
-      <Button>保存</Button>
+      <Button @click="saveName">保存</Button>
       <Button>删除标签</Button>
     </div>
   </Layout>
@@ -31,6 +32,7 @@ import Button from "../components/Button.vue";
 })
 export default class EditLabel extends Vue {
   tag?: { id: string; name: string } = undefined;
+  temporaryTagName = ''; 
   created() {
     const id = this.$route.params.id;
     tagListModel.fetch();
@@ -40,6 +42,21 @@ export default class EditLabel extends Vue {
       this.tag = tag;
     } else {
       this.$router.push("/404");
+    }
+  }
+  update(name:string){
+    if(this.tag){
+      this.temporaryTagName = name;
+    }
+  }
+  remove(){
+    if(this.tag){
+      tagListModel.remove(this.tag.id);
+    }
+  }
+  saveName(){
+    if(this.tag){  //  需要加上修改数据后的提示 111111
+      tagListModel.update(this.tag.id, this.temporaryTagName);
     }
   }
   goBack() {
