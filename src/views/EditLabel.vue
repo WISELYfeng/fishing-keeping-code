@@ -24,44 +24,39 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import FormItem from "@/components/Money/FormItem.vue";
-import tagListModel from "@/models/tagListModel";
 import Button from "../components/Button.vue";
-import router from '../router/index';
+import store from '../store/index2';
 
 @Component({
   components: { FormItem, Button },
 })
 export default class EditLabel extends Vue {
-  tag?: { id: string; name: string } = undefined;
-  temporaryTagName = ''; 
+  tag?: Tag = undefined;
+  temporaryTagName = "";
   created() {
-    const id = this.$route.params.id;
-    tagListModel.fetch();
-    const tags = tagListModel.data;
-    const tag = tags.filter((t) => t.id === id)[0];
-    if (tag) {
-      this.tag = tag;
-    } else {
-      this.$router.push("/404");
+    this.tag = store.findTag(this.$route.params.id);
+    if (!this.tag) {
+      this.$router.replace("/404");
     }
   }
-  update(name:string){
-    if(this.tag){
+  update(name: string) {
+    if (this.tag) {
       this.temporaryTagName = name;
     }
   }
-  remove(){
-    if(this.tag){
-      if(tagListModel.remove(this.tag.id)){
-        this.$router.back();
-      }else{
-        window.alert('删除失败');
-      }
+  saveName() {
+    if (this.tag) {
+      //  需要加上修改数据后的提示 111111
+      store.updateTag(this.tag.id, this.temporaryTagName);
     }
   }
-  saveName(){
-    if(this.tag){  //  需要加上修改数据后的提示 111111
-      tagListModel.update(this.tag.id, this.temporaryTagName);
+  remove() {
+    if (this.tag) {
+      if (store.removeTag(this.tag.id)) {
+        this.$router.back();
+      } else {
+        window.alert("删除失败");
+      }
     }
   }
   goBack() {
