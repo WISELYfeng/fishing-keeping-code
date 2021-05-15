@@ -9,7 +9,7 @@
         @update:value="onUpdateNotes"
       />
     </div>
-    <Tags />
+    <Tags @update:value="record.tags = $event" />
   </Layout>
 </template>
 
@@ -43,6 +43,7 @@ export default class Money extends Vue {
   }
   saveRecord() {
     this.$store.commit("createRecord", this.record);
+    window.alert('明细添加成功！');
   }
 }
 </script>

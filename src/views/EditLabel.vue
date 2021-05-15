@@ -15,7 +15,7 @@
     </div>
     <div class="button-wrapper">
       <Button @click="saveName">保存</Button>
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -26,19 +26,18 @@ import { Component } from "vue-property-decorator";
 import FormItem from "@/components/Money/FormItem.vue";
 import Button from "../components/Button.vue";
 
-
 @Component({
   components: { FormItem, Button },
 })
 export default class EditLabel extends Vue {
   temporaryTagName = "";
-  get currentTag(){
+  get currentTag() {
     return this.$store.state.currentTag;
   }
   created() {
     const id = this.$route.params.id;
-    this.$store.commit('fetchTags');
-    this.$store.commit('setCurrentTag',id);
+    this.$store.commit("fetchTags");
+    this.$store.commit("setCurrentTag", id);
     if (!this.currentTag) {
       this.$router.replace("/404");
     }
@@ -50,14 +49,17 @@ export default class EditLabel extends Vue {
   }
   saveName() {
     if (this.currentTag) {
-      this.$store.commit('updateTag',{
-        id:this.currentTag.id,name:this.temporaryTagName
+      this.$store.commit("updateTag", {
+        id: this.currentTag.id,
+        name: this.temporaryTagName,
       });
     }
   }
   remove() {
     if (this.currentTag) {
-       this.$store.commit('removeTag', this.currentTag.id);
+      if (window.confirm("是否要删除此标签？")) {
+        this.$store.commit("removeTag", this.currentTag.id);
+      }
     }
   }
   goBack() {
@@ -91,7 +93,9 @@ export default class EditLabel extends Vue {
 }
 .button-wrapper {
   text-align: center;
-  padding: 16px;
+  padding: 16px 80px;
   margin-top: 44-16px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
