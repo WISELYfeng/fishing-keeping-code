@@ -35,7 +35,7 @@ import { Component, Prop } from 'vue-property-decorator';
 
 <style lang="scss" scoped>
 .tabs {
-    background: #C4C4C4;
+    background: #59c4e8;
     display: flex;
     text-align: center;
     font-size: 24px;

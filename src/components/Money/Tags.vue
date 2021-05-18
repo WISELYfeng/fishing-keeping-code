@@ -50,7 +50,7 @@
       display: flex;
       flex-wrap: wrap;
       > li {
-        $bg: #D9D9D9;
+        $bg: #d1ecf5;
         background: $bg;
         $h: 24px;
         height: $h;
